@@ -6,6 +6,7 @@ export function InputBox({ extractVideoId }) {
   const [showOptions, setShowOptions] = useState(false);
   const [resolution, setResolution] = useState(720);
   const [videoURL, setVideoURL] = useState("");
+  const [format, setFormat] = useState("mp4")
   const SVGstyle = showOptions ? { rotate: "180deg" } : { rotate: "0deg" };
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export function InputBox({ extractVideoId }) {
         onChange={(e) => setVideoURL(e.target.value)}
       />
       <div className="btn-wrapper">
-        <div className="select" data-value="720">
+        <div className="select">
           <span>MP4 ({resolution}p)</span>
           <svg
             onClick={() => setShowOptions((cur) => !cur)}
@@ -68,7 +69,7 @@ export function InputBox({ extractVideoId }) {
         <div
           className="download"
           onClick={() => {
-            videoURL && extractVideoId(videoURL, resolution);
+            videoURL && extractVideoId(videoURL, resolution, format);
             setVideoURL("");
           }}
         >

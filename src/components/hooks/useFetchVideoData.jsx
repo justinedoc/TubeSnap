@@ -8,7 +8,9 @@ export function useFetchVideoData() {
   const [dependencies, setDependencies] = useState({
     resolution: null,
     url: null,
+    format: null,
   });
+
   const apiKey = process.env.REACT_APP_API_YOUTUBE;
 
   const fetchVideoData = useCallback(
@@ -38,7 +40,7 @@ export function useFetchVideoData() {
     [apiKey]
   );
 
-  function extractVideoId(url, res) {
+  function extractVideoId(url, res, format) {
     let videoId = null;
     let playlistId = null;
     const youtubeRegex =
@@ -62,8 +64,7 @@ export function useFetchVideoData() {
     }
 
     fetchVideoData(videoId);
-    setDependencies({ ...dependencies, resolution: res, url });
-    console.log(videoId, res);
+    setDependencies({ ...dependencies, resolution: res, url, format });
   }
 
   return { videoData, loading, error, extractVideoId, dependencies };
