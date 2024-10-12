@@ -1,6 +1,17 @@
 # TubeSnap Frontend
 
-This project is the frontend component of the TubeSnap application. It allows users to download and view YouTube videos directly from the web interface. The frontend is built with React and interacts with the backend API to fetch and stream videos.
+TubeSnap allows users to download and view YouTube videos directly from the web. Built with React, it offers a seamless experience for fetching and streaming videos.
+
+# Features
+
+### Download Videos: 
+Fetch videos from YouTube and save them to your device.
+
+### Stream Videos:
+ Watch YouTube videos directly in the app.
+
+### Responsive Design:
+ Optimized for all devices.
 
 ## Table of Contents
 
