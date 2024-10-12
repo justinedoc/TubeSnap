@@ -42,7 +42,7 @@ export function useFetchVideoData() {
 
   function extractVideoId(url, res, format) {
     let videoId = null;
-    let playlistId = null;
+    // let playlistId = null;
     const youtubeRegex =
       /(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})|youtube\.com\/playlist\?list=([a-zA-Z0-9_-]+)/;
     const match = url.match(youtubeRegex);
@@ -51,7 +51,7 @@ export function useFetchVideoData() {
       videoId = match[1];
     } else if (match && match[2]) {
       // If it's a playlist
-      playlistId = match[2];
+      // playlistId = match[2];
     } else if (url.length === 11) {
       videoId = url;
     } else if (!match) {
