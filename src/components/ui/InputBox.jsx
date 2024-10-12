@@ -70,7 +70,6 @@ export function InputBox({ extractVideoId }) {
           className="download"
           onClick={() => {
             videoURL && extractVideoId(videoURL, resolution, format);
-            setVideoURL("");
           }}
         >
           <svg
