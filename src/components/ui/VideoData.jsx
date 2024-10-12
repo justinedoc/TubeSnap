@@ -10,7 +10,7 @@ export function VideoData({ videoData, dependencies }) {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:5000/api/videos/download?videoURL=${encodeURIComponent(
+          `https://tube-snap.onrender.com/api/videos/download?videoURL=${encodeURIComponent(
             dependencies.url
           )}&format=${dependencies.format}&resolution=${
             dependencies.resolution
@@ -55,9 +55,7 @@ export function VideoData({ videoData, dependencies }) {
 
     const aTag = document.createElement("a");
     aTag.href = downloadURL;
-    aTag.download = `${videoData?.snippet.title}.${
-      dependencies.format
-    }`;
+    aTag.download = `${videoData?.snippet.title}.${dependencies.format}`;
     document.body.appendChild(aTag);
     aTag.click();
     aTag.remove();
