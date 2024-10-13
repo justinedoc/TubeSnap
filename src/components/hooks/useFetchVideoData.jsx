@@ -28,7 +28,7 @@ export function useFetchVideoData() {
 
         const data = await response.json();
         setVideoData(data?.items[0]);
-        console.log("done");
+        // console.log("done");
       } catch (err) {
         setError(err.message || "An unknown error occurred");
       } finally {

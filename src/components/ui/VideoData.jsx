@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 export function VideoData({ videoData, dependencies }) {
@@ -6,49 +6,50 @@ export function VideoData({ videoData, dependencies }) {
   const [downloadURL, setDownloadURL] = useState(null);
   const [loadProgress, setLoadProgress] = useState(0);
 
-  const fetchVideo = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(
-        `https://tube-snap.onrender.com/api/videos/download?videoURL=${encodeURIComponent(
-          dependencies.url
-        )}&resolution=${dependencies.resolution}`,
-        {
-          method: "GET",
+  useEffect(() => {
+    const fetchVideo = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/videos/download?videoURL=${encodeURIComponent(
+            dependencies.url
+          )}&resolution=${dependencies.resolution}`,
+          {
+            method: "GET",
+          }
+
+          // https://tube-snap.onrender.com
+        );
+
+        // console.log("Finished fetching...");
+
+        if (!response.ok) {
+          Swal.fire({
+            text: "An Error occurred",
+            icon: "error",
+            title: "Oops...",
+          });
+          throw new Error("An error occurred");
         }
-      );
 
-      if (!response.ok) {
+        const data = await response.json();
+        setDownloadURL(data?.progress?.download_url);
+        // console.log("can download...");
+        setLoadProgress(data?.progress?.progress);
+      } catch (err) {
+        console.error("Error downloading the video:", err);
         Swal.fire({
-          text: "An Error occurred",
-          icon: "error",
           title: "Oops...",
+          icon: "error",
+          text: "An error occurred, try again later",
         });
-        throw new Error("An error occurred");
+      } finally {
+        loadProgress === 1000 && setLoading(false);
       }
+    };
 
-      const data = await response.json();
-      setDownloadURL(data?.progress?.download_url);
-      setLoadProgress(data?.progress?.progress);
-    } catch (err) {
-      console.error("Error downloading the video:", err);
-      Swal.fire({
-        title: "Oops...",
-        icon: "error",
-        text: "An error occurred, try again later",
-      });
-    }
-  }, [dependencies]);
-
-  useEffect(() => {
     fetchVideo();
-  }, [fetchVideo]);
-
-  useEffect(() => {
-    if (loadProgress === 1000) {
-      setLoading(false);
-    }
-  }, [loadProgress]);
+  }, [dependencies.url, dependencies.resolution, loadProgress]);
 
   function handleDownload() {
     if (loadProgress === 1000 || !loading) {
@@ -77,24 +78,26 @@ export function VideoData({ videoData, dependencies }) {
         </div>
         <div className="video__details">
           <div className="tags">
-            <button className="tag">{dependencies?.resolution && "Video"}</button>
-            <button className="tag">{dependencies?.resolution && `MP4 (${dependencies?.resolution}p)`}</button>
+            <button className="tag">
+              {dependencies?.resolution && "Video"}
+            </button>
+            <button className="tag">
+              {dependencies?.resolution && `MP4 (${dependencies?.resolution}p)`}
+            </button>
           </div>
           <h1>{videoData?.snippet.title}</h1>
+
           <div className="url__link">
             <span>URL:</span>
             <a href={dependencies?.url}>{dependencies?.url}</a>
           </div>
-          <div className="button__container" onClick={handleDownload}>
-            <div className="loading" style={{ width: progressWidth }}>
-              {loading ? (
-                <span style={{ color: "#ffff" }}>
-                  Fetching video... {`${progressNum}%`}
-                </span>
-              ) : (
-                <span style={{ color: "#ffff" }}>Save To Device</span>
-              )}
-            </div>
+
+          <div
+            className="button__container"
+            onClick={() => handleDownload(videoData?.snippet.title)}
+          >
+            <div className="loading" style={{ width: progressWidth }}></div>
+
             <button disabled={loading}>
               {!loading ? (
                 <>
@@ -119,12 +122,13 @@ export function VideoData({ videoData, dependencies }) {
                       strokeLinejoin="round"
                     ></path>
                   </svg>
+
                   <span style={{ color: "#ffff" }}>Save To Device</span>
                 </>
               ) : (
-                <>
-                  <span style={{ color: "#ffff" }}>Fetching video... {`${progressNum}%`}</span>
-                </>
+                <span style={{ color: "#ffff" }}>
+                  Fetching video... {`${loadProgress / 10}%`}
+                </span>
               )}
             </button>
           </div>

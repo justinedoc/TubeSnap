@@ -20,7 +20,7 @@ export function Hero() {
       <InputBox extractVideoId={extractVideoId} />
       <CopyRightWarning />
       {loading && <VideoCardSkeleton />}
-      {videoData && (
+      {(!loading && videoData) && (
         <VideoData
           dependencies={dependencies}
           videoData={videoData}
