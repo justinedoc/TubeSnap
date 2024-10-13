@@ -18,27 +18,25 @@ export function VideoData({ videoData, dependencies }) {
         }
       );
 
-      const data = await response.json();
-
       if (!response.ok) {
         Swal.fire({
-          text: "An Error occured",
+          text: "An Error occurred",
           icon: "error",
-          title: "Ops...",
+          title: "Oops...",
         });
-        throw new Error("An error occured");
+        throw new Error("An error occurred");
       }
 
+      const data = await response.json();
       setDownloadURL(data?.progress?.download_url);
       setLoadProgress(data?.progress?.progress);
     } catch (err) {
-      // console.error("Error downloading the video:", err);
+      console.error("Error downloading the video:", err);
       Swal.fire({
-        title: "Ops...",
+        title: "Oops...",
         icon: "error",
-        text: "An error occured, Try again later",
+        text: "An error occurred, try again later",
       });
-      return;
     }
   }, [dependencies]);
 
@@ -46,22 +44,24 @@ export function VideoData({ videoData, dependencies }) {
     fetchVideo();
   }, [fetchVideo]);
 
-  const progressNum = loadProgress / 10;
-  const progressWidth = `${progressNum}%`;
-  
-  loadProgress === 1000 && setLoading(false);
+  useEffect(() => {
+    if (loadProgress === 1000) {
+      setLoading(false);
+    }
+  }, [loadProgress]);
 
   function handleDownload() {
     if (loadProgress === 1000 || !loading) {
       const a = document.createElement("a");
       a.href = downloadURL;
       document.body.appendChild(a);
-      if (a.href) {
-        a.click();
-        a.remove();
-      }
+      a.click();
+      a.remove();
     }
   }
+
+  const progressNum = loadProgress / 10;
+  const progressWidth = `${progressNum}%`;
 
   return (
     <section className="video-data__container">
@@ -77,26 +77,24 @@ export function VideoData({ videoData, dependencies }) {
         </div>
         <div className="video__details">
           <div className="tags">
-            <button className="tag">
-              {dependencies?.resolution && "Video"}
-            </button>
-            <button className="tag">
-              {dependencies?.resolution && `MP4 (${dependencies?.resolution}p)`}
-            </button>
+            <button className="tag">{dependencies?.resolution && "Video"}</button>
+            <button className="tag">{dependencies?.resolution && `MP4 (${dependencies?.resolution}p)`}</button>
           </div>
           <h1>{videoData?.snippet.title}</h1>
-
           <div className="url__link">
             <span>URL:</span>
             <a href={dependencies?.url}>{dependencies?.url}</a>
           </div>
-
-          <div
-            className="button__container"
-            onClick={() => handleDownload(videoData?.snippet.title)}
-          >
-            <div className="loading" style={{ width: progressWidth }}></div>
-
+          <div className="button__container" onClick={handleDownload}>
+            <div className="loading" style={{ width: progressWidth }}>
+              {loading ? (
+                <span style={{ color: "#ffff" }}>
+                  Fetching video... {`${progressNum}%`}
+                </span>
+              ) : (
+                <span style={{ color: "#ffff" }}>Save To Device</span>
+              )}
+            </div>
             <button disabled={loading}>
               {!loading ? (
                 <>
@@ -121,14 +119,11 @@ export function VideoData({ videoData, dependencies }) {
                       strokeLinejoin="round"
                     ></path>
                   </svg>
-
                   <span style={{ color: "#ffff" }}>Save To Device</span>
                 </>
               ) : (
                 <>
-                  <span style={{ color: "#ffff" }}>
-                    Fetching video... {`${loadProgress / 10}%`}
-                  </span>
+                  <span style={{ color: "#ffff" }}>Fetching video... {`${progressNum}%`}</span>
                 </>
               )}
             </button>
