@@ -11,14 +11,15 @@ export function VideoData({ videoData, dependencies }) {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:5000/api/videos/download?videoURL=${encodeURIComponent(
+          `https://tube-snap.onrender.com/api/videos/download?videoURL=${encodeURIComponent(
             dependencies.url
           )}&resolution=${dependencies.resolution}`,
           {
             method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
-
-          // https://tube-snap.onrender.com
         );
 
         // console.log("Finished fetching...");
