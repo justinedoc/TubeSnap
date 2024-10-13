@@ -31,8 +31,6 @@ export function VideoData({ videoData, dependencies }) {
 
       setDownloadURL(data?.progress?.download_url);
       setLoadProgress(data?.progress?.progress);
-
-      setLoading(false);
     } catch (err) {
       // console.error("Error downloading the video:", err);
       Swal.fire({
@@ -50,6 +48,8 @@ export function VideoData({ videoData, dependencies }) {
 
   const progressNum = loadProgress / 10;
   const progressWidth = `${progressNum}%`;
+  
+  loadProgress === 1000 && setLoading(false);
 
   function handleDownload() {
     if (loadProgress === 1000 || !loading) {
