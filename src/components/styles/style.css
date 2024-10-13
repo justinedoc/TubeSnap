@@ -429,6 +429,28 @@ img.playBtn {
   color: var(--text-color-dark);
 }
 
+.video-data .button__container {
+  position: relative;
+}
+
+.button__container .loading {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+  background: var(--hover-color);
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.button__container button {
+  width: 100%;
+}
+
+button :is(span, svg) {
+  z-index: 1;
+}
+
 .video-data button {
   display: inline-flex;
   align-items: center;
@@ -440,12 +462,16 @@ img.playBtn {
   border: none;
   outline: none;
   border-radius: 15px;
-  background: var(--hover-color);
+  background: var(--neon-bg-secondary);
   cursor: pointer;
   transition: 0.3s ease;
 }
 
 .video-data button:hover {
+  background: var(--hover-color);
+}
+
+.video-data .loading:hover {
   background: var(--primary-color);
 }
 
@@ -457,6 +483,7 @@ img.playBtn {
 .video-data .video__details a {
   color: var(--text-color-light);
   line-height: 1.25;
+  word-break: break-all;
 }
 
 .dark__mode .video-data .video__details a {
