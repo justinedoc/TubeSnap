@@ -1,4 +1,9 @@
 export function About() {
+  function handleFocusInput() {
+    const input = document.querySelector("input");
+    input.focus();
+  }
+
   return (
     <section className="section__padding about__section">
       <div className="hero__text">
@@ -13,7 +18,9 @@ export function About() {
           Tube.snap ensures you have everything stored, available offline in the
           format that suits your needs.
         </p>
-        <button className="btn-action">Download Now</button>
+        <button className="btn-action" onClick={handleFocusInput}>
+          Download Now
+        </button>
       </div>
 
       <div className="quote hero__text">

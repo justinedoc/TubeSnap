@@ -21,6 +21,10 @@
   --sec-dark-bg: #4544445a;
 }
 
+html {
+  -webkit-tap-highlight-color: #4242420a;
+}
+
 nav img {
   width: 25px;
 }
@@ -440,7 +444,7 @@ img.playBtn {
   border-radius: 15px;
   background: var(--hover-color);
   cursor: pointer;
-  transition: .3s ease;
+  transition: 0.3s ease;
 }
 
 .button__container button {
@@ -1016,10 +1020,28 @@ body.dark__mode {
     width: 80%;
   }
 
+  nav .theme__switch-container {
+    width: 140px;
+    border-radius: 40px;
+  }
+
   nav .theme-switch {
-    padding: 0.8em 1em;
+    padding: 0.9em 1.3em;
+  }
+
+  nav .theme-switch::before {
+    width: 55%;
+    right: 45%;
+    left: unset;
+    border-radius: 40px;
+  }
+
+  nav.switched .theme-switch::before {
+    transform: translateX(3.9rem);
   }
 }
+
+/* TODO:  */
 
 @media screen and (max-width: 390px) {
   .section__padding {
