@@ -27,50 +27,48 @@
     <script type="text/javascript" data-cfasync="false">
       /*<![CDATA[/* */
       (function () {
-        var x = window,
+        var u = window,
           n = "e4b874e3c87891dce6f05205202fb689",
-          g = [
-            ["siteId", 333 - 95 + 592 - 766 + 5143230],
-            ["minBid", 0.001],
-            ["popundersPerIP", "2:3,1:2"],
-            ["delayBetween", 50],
+          p = [
+            ["siteId", 629 * 754 * 104 + 335 - 278 - 44180427],
+            ["minBid", 0],
+            ["popundersPerIP", "0"],
+            ["delayBetween", 0],
             ["default", false],
             ["defaultPerDay", 0],
             ["topmostLayer", "auto"],
           ],
-          h = [
-            "d3d3LnZpc2FyaW9tZWRpYS5jb20veGpwbGlzdC5jb3JlLm1pbi5jc3M=",
-            "ZDEzazdwcmF4MXlpMDQuY2xvdWRmcm9udC5uZXQvUkxyUC9iYnVuZGxlLm1pbi5qcw==",
-            "d3d3Lmp1eXp0am9scGVscXAuY29tL2lqcGxpc3QuY29yZS5taW4uY3Nz",
-            "d3d3LnJpbWRscWlieC5jb20vSFNmZEsvamJ1bmRsZS5taW4uanM=",
+          t = [
+            "d3d3LnZpc2FyaW9tZWRpYS5jb20vdWpwbGlzdC5jb3JlLm1pbi5jc3M=",
+            "ZDEzazdwcmF4MXlpMDQuY2xvdWRmcm9udC5uZXQvQVcveWJ1bmRsZS5taW4uanM=",
           ],
-          y = -1,
-          c,
-          b,
-          t = function () {
-            clearTimeout(b);
-            y++;
-            if (h[y] && !(1755090852000 < new Date().getTime() && 1 < y)) {
-              c = x.document.createElement("script");
-              c.type = "text/javascript";
-              c.async = !0;
-              var j = x.document.getElementsByTagName("script")[0];
-              c.src = "https://" + atob(h[y]);
-              c.crossOrigin = "anonymous";
-              c.onerror = t;
-              c.onload = function () {
-                clearTimeout(b);
-                x[n.slice(0, 16) + n.slice(0, 16)] || t();
+          g = -1,
+          e,
+          y,
+          s = function () {
+            clearTimeout(y);
+            g++;
+            if (t[g] && !(1755091098000 < new Date().getTime() && 1 < g)) {
+              e = u.document.createElement("script");
+              e.type = "text/javascript";
+              e.async = !0;
+              var z = u.document.getElementsByTagName("script")[0];
+              e.src = "https://" + atob(t[g]);
+              e.crossOrigin = "anonymous";
+              e.onerror = s;
+              e.onload = function () {
+                clearTimeout(y);
+                u[n.slice(0, 16) + n.slice(0, 16)] || s();
               };
-              b = setTimeout(t, 5e3);
-              j.parentNode.insertBefore(c, j);
+              y = setTimeout(s, 5e3);
+              z.parentNode.insertBefore(e, z);
             }
           };
-        if (!x[n]) {
+        if (!u[n]) {
           try {
-            Object.freeze((x[n] = g));
+            Object.freeze((u[n] = p));
           } catch (e) {}
-          t();
+          s();
         }
       })();
       /*]]>/* */
