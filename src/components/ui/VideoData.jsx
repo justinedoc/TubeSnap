@@ -18,13 +18,10 @@ export function VideoData({ videoData, dependencies }) {
         );
         const data = await response.json();
 
-        console.log(data);
-
         if (data.download_url) {
           setLoading(false);
           setDownloadURL(data.download_url);
           setLoadProgress((cur) => {
-            console.log("progress set ny line 27");
             if (cur < data?.progress) {
               return data?.progress;
             }
@@ -36,7 +33,6 @@ export function VideoData({ videoData, dependencies }) {
 
         if (data.progress <= 1000) {
           setLoadProgress((cur) => {
-            console.log("progress set by line 38");
             if (cur < data?.progress) {
               return data?.progress;
             }
@@ -82,8 +78,6 @@ export function VideoData({ videoData, dependencies }) {
         }
       );
 
-      console.log("finished fetching");
-
       if (!response.ok) {
         Swal.fire({
           title: "Oops...",
@@ -95,10 +89,8 @@ export function VideoData({ videoData, dependencies }) {
 
       const data = await response.json();
 
-      console.log("Starting to poll progress..");
       await pollProgress(data?.data?.id); // Start polling progress
       setLoadProgress((cur) => {
-        console.log("prgress set by Starting to poll progress");
         if (cur < data?.data?.progress) {
           return data?.data?.progress;
         }
@@ -153,10 +145,14 @@ export function VideoData({ videoData, dependencies }) {
         <div className="video__details">
           <div className="tags">
             <button className="tag">
-              {dependencies?.resolution && "Video"}
+              {dependencies?.resolution && isNaN(dependencies?.resolution)
+                ? "Audio"
+                : "Video"}
             </button>
             <button className="tag">
-              {dependencies?.resolution && `MP4 (${dependencies?.resolution}p)`}
+              {dependencies?.resolution && isNaN(dependencies?.resolution)
+                ? dependencies?.resolution.toUpperCase()
+                : `MP4 (${dependencies?.resolution}p)`}
             </button>
           </div>
           <h1>{videoData?.snippet.title}</h1>

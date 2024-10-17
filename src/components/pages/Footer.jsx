@@ -9,16 +9,16 @@ export function Footer() {
           <h3>More Links</h3>
           <div className="footer_links-col">
             <li>
-              <a href="/abc">Youtube to MP3</a>
+              <a href="/">Youtube to MP3</a>
             </li>
             <li>
-              <a href="/abc">Youtube Video Downloader</a>
+              <a href="/">Youtube Video Downloader</a>
             </li>
             <li>
-              <a href="/abc">Image Searcher</a>
+              <a href="/">Image Searcher</a>
             </li>
             <li>
-              <a href="/abc">Contact Us</a>
+              <a href="https://justinedoc.vercel.app/#contact">Reach me</a>
             </li>
           </div>
         </div>

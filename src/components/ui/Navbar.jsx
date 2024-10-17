@@ -34,10 +34,10 @@ export function Navbar() {
       <div className={`nav-links ${navOpen ? "open" : null}`}>
         <ul>
           <li className="active">
-            <a href="/tube">YT Video Downloader</a>
+            <a href="/">YT Video Downloader</a>
           </li>
           <li>
-            <a href="/tube">Youtube to MP3</a>
+            <a href="/">Youtube to MP3</a>
           </li>
 
           <div className="theme__switch-container">

