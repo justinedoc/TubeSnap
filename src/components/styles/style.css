@@ -297,7 +297,7 @@ img.playBtn {
 
 .options {
   display: none;
-  flex-flow: column;
+
   gap: 0.9em;
   position: absolute;
   background: var(--text-color-dark);
@@ -305,11 +305,20 @@ img.playBtn {
   top: 110%;
   left: 0%;
   padding-block: 1em;
-  padding-inline: 1em 2em;
-  width: 165px;
+  padding-inline: 2em;
   box-shadow: 0 0 10px #2222222a;
   border-radius: 10px;
+  width: fit-content;
+}
+
+.options div {
+  display: flex;
+  gap: 0.9em;
+  flex-flow: column;
   font-weight: 300;
+  text-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .dark__mode .options {

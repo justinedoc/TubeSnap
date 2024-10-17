@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 // import { useFetchVideoData } from "../hooks/useFetchVideoData";
 const availRes = [360, 480, 720, 1080, 1440];
+const availResAUD = ["mp3", "m4a", "webm", "aac", "wav"];
 
 export function InputBox({ extractVideoId }) {
   const [showOptions, setShowOptions] = useState(false);
   const [resolution, setResolution] = useState(720);
   const [videoURL, setVideoURL] = useState("");
-  const [format, setFormat] = useState("mp4")
+  const [format, _] = useState("mp4");
   const SVGstyle = showOptions ? { rotate: "180deg" } : { rotate: "0deg" };
 
   useEffect(() => {
@@ -14,9 +15,12 @@ export function InputBox({ extractVideoId }) {
     function handleSelectResolution(e) {
       if (
         e.target.tagName === "SPAN" &&
-        e.target.parentElement.classList.contains("options")
+        e.target.parentElement.tagName === "DIV"
       ) {
-        setResolution(Number(e.target.dataset.value));
+        const value = e.target.dataset.value;
+        !isNaN(value)
+          ? setResolution(Number(e.target.dataset.value))
+          : setResolution(value);
         setShowOptions(false);
       } else if (e.target.tagName === "rect" || e.target.tagName === "path") {
         return;
@@ -25,9 +29,7 @@ export function InputBox({ extractVideoId }) {
       }
     }
 
-    return () => {
-      document.removeEventListener("click", handleSelectResolution);
-    };
+    return () => document.removeEventListener("click", handleSelectResolution);
   });
 
   return (
@@ -40,7 +42,11 @@ export function InputBox({ extractVideoId }) {
       />
       <div className="btn-wrapper">
         <div className="select">
-          <span>MP4 ({resolution}p)</span>
+          <span>
+            {isNaN(resolution)
+              ? resolution.toUpperCase()
+              : `MP4 (${resolution}p)`}
+          </span>
           <svg
             onClick={() => setShowOptions((cur) => !cur)}
             style={{ ...SVGstyle, transition: ".2s ease" }}
@@ -58,12 +64,22 @@ export function InputBox({ extractVideoId }) {
             ></path>
           </svg>
           <div className={`options ${showOptions ? "open" : null}`}>
-            <h2>Video</h2>
-            {availRes.map((res) => (
-              <span key={res} data-value={res.toString()}>
-                MP4 ({res}p)
-              </span>
-            ))}
+            <div>
+              <h2>Video</h2>
+              {availRes.map((res) => (
+                <span key={res} data-value={res.toString()}>
+                  MP4 ({res}p)
+                </span>
+              ))}
+            </div>
+            <div>
+              <h2>Audio</h2>
+              {availResAUD.map((res) => (
+                <span key={res} data-value={res.toString()}>
+                  {res.toUpperCase()}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
         <div

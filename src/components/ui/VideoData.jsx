@@ -1,66 +1,139 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 
 export function VideoData({ videoData, dependencies }) {
   const [loading, setLoading] = useState(true);
   const [downloadURL, setDownloadURL] = useState(null);
   const [loadProgress, setLoadProgress] = useState(0);
+  const [loadingText, setLoadingText] = useState("");
 
-  useEffect(() => {
-    const fetchVideo = async () => {
-      setLoading(true);
+  const timeoutRef = useRef(null);
+
+  // Polls progress of the video download
+  const pollProgress = useCallback(
+    async (id) => {
       try {
         const response = await fetch(
-          `https://tube-snap.onrender.com/api/videos/download?videoURL=${encodeURIComponent(
-            dependencies.url
-          )}&resolution=${dependencies.resolution}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+          `https://p.oceansaver.in/ajax/progress.php?id=${id}`
         );
+        const data = await response.json();
 
-        // console.log("Finished fetching...");
+        console.log(data);
 
-        if (!response.ok) {
-          Swal.fire({
-            text: "An Error occurred",
-            icon: "error",
-            title: "Oops...",
+        if (data.download_url) {
+          setLoading(false);
+          setDownloadURL(data.download_url);
+          setLoadProgress((cur) => {
+            console.log("progress set ny line 27");
+            if (cur < data?.progress) {
+              return data?.progress;
+            }
+            return cur;
           });
-          throw new Error("An error occurred");
+          clearTimeout(timeoutRef.current);
+          return;
         }
 
-        const data = await response.json();
-        setDownloadURL(data?.progress?.download_url);
-        // console.log("can download...");
-        setLoadProgress(data?.progress?.progress);
+        if (data.progress <= 1000) {
+          setLoadProgress((cur) => {
+            console.log("progress set by line 38");
+            if (cur < data?.progress) {
+              return data?.progress;
+            }
+            return cur;
+          });
+          setLoadingText(data.text);
+          // Schedule the next polling
+          if (loadProgress === 1000) {
+            clearTimeout(timeoutRef.current);
+          } else {
+            timeoutRef.current = setTimeout(() => pollProgress(id), 6000);
+          }
+        } else if (data.progress > 1000) {
+          clearTimeout(timeoutRef.current); // Stop polling when download is ready
+          throw new Error("An error occurred while fetching the video..");
+        }
       } catch (err) {
-        console.error("Error downloading the video:", err);
+        console.error("Error polling progress:", err);
         Swal.fire({
           title: "Oops...",
           icon: "error",
           text: "An error occurred, try again later",
         });
-      } finally {
-        loadProgress === 1000 && setLoading(false);
+        clearTimeout(timeoutRef.current);
       }
-    };
+    },
+    [] // useCallback will preserve the function instance
+  );
 
+  // Fetch the video for download
+  const fetchVideo = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `https://tube-snap.onrender.com/api/videos/download?videoURL=${encodeURIComponent(
+          dependencies.url
+        )}&resolution=${dependencies.resolution}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("finished fetching");
+
+      if (!response.ok) {
+        Swal.fire({
+          title: "Oops...",
+          icon: "error",
+          text: "An error occurred",
+        });
+        throw new Error("An error occurred while fetching the video.");
+      }
+
+      const data = await response.json();
+
+      console.log("Starting to poll progress..");
+      await pollProgress(data?.data?.id); // Start polling progress
+      setLoadProgress((cur) => {
+        console.log("prgress set by Starting to poll progress");
+        if (cur < data?.data?.progress) {
+          return data?.data?.progress;
+        }
+        return cur;
+      });
+    } catch (err) {
+      console.error("Error downloading the video:", err);
+      Swal.fire({
+        title: "Oops...",
+        icon: "error",
+        text: "An error occurred, try again later",
+      });
+    }
+  }, [dependencies, pollProgress]);
+
+  // Fetch video as soon as the component mounts
+  useEffect(() => {
     fetchVideo();
-  }, [dependencies.url, dependencies.resolution, loadProgress]);
+    return () => clearTimeout(timeoutRef.current); // Clean up timeout on unmount
+  }, [fetchVideo]);
 
-  function handleDownload() {
-    if (loadProgress === 1000 || !loading) {
+  // Handle download click when video is ready
+  const handleDownload = () => {
+    if (downloadURL) {
       const a = document.createElement("a");
       a.href = downloadURL;
       document.body.appendChild(a);
       a.click();
       a.remove();
+    } else {
+      Swal.fire({
+        text: "Download not ready...",
+      });
     }
-  }
+  };
 
   const progressNum = loadProgress / 10;
   const progressWidth = `${progressNum}%`;
@@ -93,12 +166,8 @@ export function VideoData({ videoData, dependencies }) {
             <a href={dependencies?.url}>{dependencies?.url}</a>
           </div>
 
-          <div
-            className="button__container"
-            onClick={() => handleDownload(videoData?.snippet.title)}
-          >
+          <div className="button__container" onClick={handleDownload}>
             <div className="loading" style={{ width: progressWidth }}></div>
-
             <button disabled={loading}>
               {!loading ? (
                 <>
@@ -128,7 +197,7 @@ export function VideoData({ videoData, dependencies }) {
                 </>
               ) : (
                 <span style={{ color: "#ffff" }}>
-                  Fetching video... {`${loadProgress / 10}%`}
+                  {loadingText || "Fetching"}... {`${loadProgress / 10}%`}
                 </span>
               )}
             </button>
