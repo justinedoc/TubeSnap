@@ -45,8 +45,8 @@ function HeroHeader() {
         Youtube Video <span>Downloader</span>
       </h1>
       <p>
-        Try this unique for quick, hassle-free downloads from Youtube. Transform
-        your offline video collection with this reliable and efficient
+        Try tubeSnap for quick, hassle-free downloads from Youtube. Transform
+        your offline video collection with TubeSnap ~ A reliable and efficient
         downloader.
       </p>
 
