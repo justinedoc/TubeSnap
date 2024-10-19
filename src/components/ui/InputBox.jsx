@@ -15,10 +15,12 @@ export function InputBox({ extractVideoId }) {
     function handleSelectResolution(e) {
       if (
         e.target.tagName === "SPAN" &&
-        e.target.parentElement.tagName === "DIV"
+        e.target.parentElement.tagName === "DIV" &&
+        e.target.dataset.value
       ) {
         const value = e.target.dataset.value;
-        !isNaN(value)
+
+        !isNaN(value) && !value
           ? setResolution(Number(e.target.dataset.value))
           : setResolution(value);
         setShowOptions(false);
@@ -44,7 +46,7 @@ export function InputBox({ extractVideoId }) {
         <div className="select">
           <span>
             {isNaN(resolution)
-              ? resolution.toUpperCase()
+              ? resolution?.toUpperCase()
               : `MP4 (${resolution}p)`}
           </span>
           <svg
