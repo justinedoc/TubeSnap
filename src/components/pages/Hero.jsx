@@ -30,7 +30,7 @@ export function Hero() {
       {error &&
         Swal.fire({
           icon: "error",
-          title: "An Error Occured",
+          title: "Couldn't fetch video data.",
           text: error,
           timer: 3000,
         })}

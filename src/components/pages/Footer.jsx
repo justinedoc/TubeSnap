@@ -15,7 +15,9 @@ export function Footer() {
               <a href="/">Youtube Video Downloader</a>
             </li>
             <li>
-              <a href="/">Image Searcher</a>
+              <a href="/https://image-search-smoky-nine.vercel.app/">
+                Image Library
+              </a>
             </li>
             <li>
               <a href="https://justinedoc.vercel.app/#contact">Reach me</a>
