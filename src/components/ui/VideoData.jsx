@@ -43,7 +43,7 @@ export function VideoData({ videoData, dependencies }) {
           if (loadProgress === 1000) {
             clearTimeout(timeoutRef.current);
           } else {
-            timeoutRef.current = setTimeout(() => pollProgress(id), 2000);
+            timeoutRef.current = setTimeout(() => pollProgress(id), 1500);
           }
         } else if (data.progress > 1000) {
           clearTimeout(timeoutRef.current); // Stop polling when download is ready
@@ -67,7 +67,7 @@ export function VideoData({ videoData, dependencies }) {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://tube-snap.onrender.com/api/videos/download?videoURL=${encodeURIComponent(
+        `https://tube-snap-beknd.vercel.app/api/videos/download?videoURL=${encodeURIComponent(
           dependencies.url
         )}&resolution=${dependencies.resolution}`,
         {
