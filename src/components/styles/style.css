@@ -591,6 +591,7 @@ section.features__section .features__container {
 .features__container .feature-box {
   width: 100%;
   display: flex;
+  box-shadow: 0 0 10px #00000011;
   flex-flow: column;
   gap: 1em;
   background: #ffff;
