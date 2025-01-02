@@ -602,7 +602,6 @@ section.features__section .features__container {
 
 .features__container .feature-box:hover {
   transform: translateY(-0.5em);
-  box-shadow: 0 0 15px var(--neon-bg);
 }
 
 .features__container .feature-box p {
